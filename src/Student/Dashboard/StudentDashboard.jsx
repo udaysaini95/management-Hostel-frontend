@@ -1,7 +1,8 @@
 import { useState } from "react";
-import Sidebar from "./Studentcomponenrts/Sidebar";
-import Topbar from "./Studentcomponenrts/Topbar";
-import DashboardCard from "./Studentcomponenrts/DashboardCard";
+import Sidebar from "./Studentcomponents/Sidebar";
+import DashboardCard from "./Studentcomponents/DashboardCard";
+import Topbar from "./Studentcomponents/Topbar";
+
 
 const StudentDashboard = () => {
   const [showSidebar, setShowSidebar] = useState(false);

@@ -9,7 +9,7 @@ import StudentDashboard from "./Student/Dashboard/StudentDashboard";
 
 function App() {
 
-  const location = useLocation();
+  // const location = useLocation();
 
   // Jahan Navbar hide karna ho
  const hideNavbarRoutes = [
