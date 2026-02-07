@@ -3,6 +3,8 @@ import Home from "./Home/Home";
 import Navbar from "./Home/components/Navbar";
 import StudentLogin from "./Student/Login";
 import StudentRegister from "./Student/Register";
+import AdminLogin from "./Admin/Login";
+import AdminRegister from "./Admin/Register";
 import StudentDashboard from "./Student/Dashboard/StudentDashboard";
 
 function App() {
@@ -26,6 +28,8 @@ function App() {
         <Route path="/student/login" element={<StudentLogin />} />
         <Route path="/student/register" element={<StudentRegister />} />
 
+        <Route path="/admin/login" element={<AdminLogin/>} />
+        <Route path="/admin/register" element={<AdminRegister />} />
 
         <Route path="/student/dashboard" element={<StudentDashboard/>} />
         
