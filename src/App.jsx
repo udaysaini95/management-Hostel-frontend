@@ -1,6 +1,7 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "./Home/Home";
 import Navbar from "./Home/components/Navbar";
+import StudentLayout from "./Student/Dashboard/StudentLayout";
 import StudentLogin from "./Student/Login";
 import StudentRegister from "./Student/Register";
 import AdminLogin from "./Admin/Login";
@@ -25,8 +26,10 @@ function App() {
   const location = useLocation();
 
   // Jahan Navbar hide karna ho
-  // Modified to hide public navbar on all /admin and /student routes
-  const shouldHideNavbar = location.pathname.startsWith("/admin") || location.pathname.startsWith("/student");
+  // Modified to hide public navbar on all /admin and /student routes EXCEPT login/register
+  const shouldHideNavbar =
+    (location.pathname.startsWith("/admin") && !["/admin/login", "/admin/register"].includes(location.pathname)) ||
+    (location.pathname.startsWith("/student") && !["/student/login", "/student/register"].includes(location.pathname));
 
   // Import AdminLayout - We need to import it first
   // Note: I will add the import at the top in a separate edit if needed, 
@@ -46,13 +49,13 @@ function App() {
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/register" element={<AdminRegister />} />
 
-        {/* Student Routes */}
-        <Route path="/student/dashboard" element={<StudentDashboard />} />
-        <Route path="/student/raise-complaint" element={<RaiseComplaint />} />
-        <Route path="/student/my-complaints" element={<MyComplaints />} />
-        <Route path="/student/Leaves" element={<ApplyLeave />} />
-        <Route path="/student/myleave" element={<MyLeaves />} />
-        <Route path="/student/messpage" element={<MessPage />} />
+        {/* Student Routes - Wrapped in StudentLayout */}
+        <Route path="/student/dashboard" element={<StudentLayout><StudentDashboard /></StudentLayout>} />
+        <Route path="/student/raise-complaint" element={<StudentLayout><RaiseComplaint /></StudentLayout>} />
+        <Route path="/student/my-complaints" element={<StudentLayout><MyComplaints /></StudentLayout>} />
+        <Route path="/student/Leaves" element={<StudentLayout><ApplyLeave /></StudentLayout>} />
+        <Route path="/student/myleave" element={<StudentLayout><MyLeaves /></StudentLayout>} />
+        <Route path="/student/messpage" element={<StudentLayout><MessPage /></StudentLayout>} />
 
         {/* Admin Routes - Wrapped in AdminLayout */}
         <Route path="/admin/dashboard" element={<AdminDashboard />} />

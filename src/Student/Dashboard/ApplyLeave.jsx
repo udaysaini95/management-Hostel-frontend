@@ -51,10 +51,7 @@ function ApplyLeave() {
   }
 
   return (
-    <div className="h-screen overflow-hidden bg-[url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center bg-fixed relative flex justify-center items-center p-4">
-
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-slate-900/90 z-0"></div>
+    <div className="w-full h-full flex items-center justify-center pt-10">
 
       <div className="relative z-10 w-full max-w-md bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl p-6">
 
