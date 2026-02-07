@@ -1,40 +1,53 @@
-import { Menu, User } from "lucide-react"
+import { Menu, LogOut, User } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 
 const AdminNavbar = ({ toggleSidebar }) => {
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    localStorage.removeItem("role")
+    navigate("/admin/login")
+  }
+
   return (
     <div className="
       fixed top-0 left-0 right-0
-      h-16 bg-white shadow
+      h-16 
+      bg-gradient-to-r from-slate-900/95 to-slate-800/95 
+      backdrop-blur-xl shadow-2xl border-b border-white/10
       flex items-center justify-between
-      px-6 z-50
+      px-6 md:px-10 z-50
     ">
       <div className="flex items-center gap-4">
         <button
           onClick={toggleSidebar}
-          className="p-2 rounded-md hover:bg-gray-100 md:hidden"
+          className="p-2 rounded-lg hover:bg-white/10 text-white md:hidden transition-colors"
         >
           <Menu size={24} />
         </button>
 
-        <h2 className="font-semibold text-lg">
-          Admin Dashboard
+        <h2 className="font-bold text-xl text-white tracking-tight hidden md:block">
+          Hostel<span className="text-purple-400">Mate</span> <span className="text-xs text-slate-400 font-normal uppercase tracking-widest ml-2 border-l border-white/20 pl-2">Admin Panel</span>
         </h2>
       </div>
 
       <div className="flex items-center gap-6">
-        <button className="flex items-center gap-2 text-gray-700 hover:text-blue-600">
-          <User size={18} />
-          Admin Profile
+        <button className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors text-sm font-medium group">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center border border-white/10 group-hover:border-purple-500/50 transition-colors">
+            <User size={18} className="text-purple-300 group-hover:text-purple-200" />
+          </div>
+          <span className="hidden md:block">Administrator</span>
         </button>
 
+        <div className="h-8 w-px bg-gradient-to-b from-transparent via-white/10 to-transparent"></div>
+
         <button
-          onClick={() => {
-            localStorage.removeItem("token")
-            window.location.href = "/admin/login"
-          }}
-          className="text-red-500 font-semibold hover:text-red-600"
+          onClick={handleLogout}
+          className="flex items-center gap-2 text-rose-400 hover:text-rose-300 transition-colors text-sm font-medium hover:bg-rose-500/10 px-4 py-2 rounded-full border border-transparent hover:border-rose-500/20"
         >
-          Logout
+          <LogOut size={18} />
+          <span className="hidden md:block">Sign Out</span>
         </button>
       </div>
     </div>

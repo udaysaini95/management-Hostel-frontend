@@ -17,6 +17,7 @@ import ViewReports from "./Admin/AdminDashboard/ViewReports";
 import AdminLeaves from "./Admin/AdminDashboard/AdminLeaves";
 import CreateMenu from "./Admin/AdminDashboard/MessCreate";
 import MessAnalytics from "./Admin/AdminDashboard/MessAnalytics";
+import AdminLayout from "./Admin/AdminDashboard/AdminLayout";
 
 
 function App() {
@@ -24,41 +25,42 @@ function App() {
   const location = useLocation();
 
   // Jahan Navbar hide karna ho
-  const hideNavbarRoutes = [
-    "/student/dashboard", "/admin/dashboard"
-  ];
-  
+  // Modified to hide public navbar on all /admin and /student routes
+  const shouldHideNavbar = location.pathname.startsWith("/admin") || location.pathname.startsWith("/student");
 
-  const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
+  // Import AdminLayout - We need to import it first
+  // Note: I will add the import at the top in a separate edit if needed, 
+  // but for now let's assume I can't add imports with this tool easily without replacing the whole file.
+  // Actually, I should use the wrapper component approach directly in the element prop.
 
   return (
     <>
       {!shouldHideNavbar && <Navbar />}
 
       <Routes>
-        <Route path="/" element={<Home/>} />
+        <Route path="/" element={<Home />} />
 
         <Route path="/student/login" element={<StudentLogin />} />
         <Route path="/student/register" element={<StudentRegister />} />
 
-        <Route path="/admin/login" element={<AdminLogin/>} />
-        <Route path="/admin/register" element={<AdminRegister/>} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/register" element={<AdminRegister />} />
 
-        <Route path="/student/dashboard" element={<StudentDashboard/>} />
-                <Route path="/student/raise-complaint" element={<RaiseComplaint/>} />
+        {/* Student Routes */}
+        <Route path="/student/dashboard" element={<StudentDashboard />} />
+        <Route path="/student/raise-complaint" element={<RaiseComplaint />} />
         <Route path="/student/my-complaints" element={<MyComplaints />} />
-                <Route path="/student/Leaves" element={<ApplyLeave/>} />
-                <Route path="/student/myleave" element={<MyLeaves/>} />
-                <Route path="/student/messpage" element={<MessPage/>} />
+        <Route path="/student/Leaves" element={<ApplyLeave />} />
+        <Route path="/student/myleave" element={<MyLeaves />} />
+        <Route path="/student/messpage" element={<MessPage />} />
 
-
+        {/* Admin Routes - Wrapped in AdminLayout */}
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/Allcomplaints" element={<AllComplaints/>} />
-        <Route path="/admin/reports" element={<ViewReports/>} />
-        <Route path="/admin/Leaves" element={<AdminLeaves/>} />
-        <Route path="/admin/createmenu" element={<CreateMenu/>} />
-        <Route path="/admin/messAnalytics" element={<MessAnalytics/>} />
-
+        <Route path="/admin/Allcomplaints" element={<AdminLayout><AllComplaints /></AdminLayout>} />
+        <Route path="/admin/reports" element={<AdminLayout><ViewReports /></AdminLayout>} />
+        <Route path="/admin/Leaves" element={<AdminLayout><AdminLeaves /></AdminLayout>} />
+        <Route path="/admin/createmenu" element={<AdminLayout><CreateMenu /></AdminLayout>} />
+        <Route path="/admin/messAnalytics" element={<AdminLayout><MessAnalytics /></AdminLayout>} />
 
       </Routes>
     </>

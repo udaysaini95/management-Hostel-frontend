@@ -1,57 +1,39 @@
 import { useState } from "react"
-import AdminSidebar from "./AdminComponents/AdminSidebar"
 import AdminDashboardCard from "./AdminComponents/AdminDashboardCard"
-import AdminNavbar from "./AdminComponents/AdminNavbar"
-
+import { ClipboardList, FileBarChart } from "lucide-react"
+import AdminLayout from "./AdminLayout"
 
 const AdminDashboard = () => {
-  const [showSidebar, setShowSidebar] = useState(false)
-
   return (
-    <div className="min-h-screen bg-slate-100">
+    <AdminLayout>
+      <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
+        Admin <span className="text-purple-400">Dashboard</span>
+      </h1>
 
-      <AdminNavbar toggleSidebar={() => setShowSidebar(!showSidebar)} />
+      <p className="text-slate-400 mb-10 text-lg">
+        Overview of hostel operations and reports.
+      </p>
 
-      <div className="flex pt-16">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-        <div className={`
-          fixed md:static z-40
-          ${showSidebar ? "block" : "hidden"}
-          md:block
-        `}>
-          <AdminSidebar />
-        </div>
+        <AdminDashboardCard
+          title="Manage Complaints"
+          desc="View, assign and resolve student complaints."
+          btnText="Review Complaints"
+          link="/admin/Allcomplaints"
+          icon={<ClipboardList size={32} className="text-purple-400" />}
+        />
 
-        <div className="flex-1 p-10">
-          <h1 className="text-3xl font-bold mb-2">
-            Admin Dashboard
-          </h1>
+        <AdminDashboardCard
+          title="Reports"
+          desc="Generate system & complaint reports."
+          btnText="View Reports"
+          link="/admin/reports"
+          icon={<FileBarChart size={32} className="text-pink-400" />}
+        />
 
-          <p className="text-gray-500 mb-10">
-            Manage hostel operations efficiently.
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-
-            <AdminDashboardCard
-              title="Manage Complaints"
-              desc="View, assign and resolve student complaints."
-              btnText="Review Complaints"
-              link="/admin/Allcomplaints"
-            />
-
-            <AdminDashboardCard
-              title="Reports"
-              desc="Generate system & complaint reports."
-              btnText="View Reports"
-              primaryColor="bg-purple-500"
-              link="/admin/reports"
-            />
-
-          </div>
-        </div>
       </div>
-    </div>
+    </AdminLayout>
   )
 }
 
