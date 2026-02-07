@@ -4,11 +4,12 @@ import {
   ClipboardList,
   FilePlus,
   FileText,
-  LogOut
+  LogOut,
+  UserCircle
 } from "lucide-react"
 import { NavLink, useNavigate } from "react-router-dom"
 
-const Sidebar = () => {
+const Sidebar = ({ studentName = "Student" }) => {
   const navigate = useNavigate()
 
   const handleLogout = () => {
@@ -17,105 +18,85 @@ const Sidebar = () => {
   }
 
   const linkClass = ({ isActive }) =>
-    `flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-300
-     ${
-       isActive
-         ? "bg-gradient-to-r from-blue-400 to-purple-400 text-white shadow-md"
-         : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-     }`
+    `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 font-medium my-1
+     ${isActive
+      ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg shadow-blue-500/30 translate-x-1"
+      : "text-slate-400 hover:bg-white/5 hover:text-white hover:translate-x-1"
+    }`
 
   return (
     <div
       className="
-        w-64
-        bg-gradient-to-b from-blue-50 via-purple-50 to-pink-50
-        text-gray-800
-        rounded-r-3xl
-        shadow-2xl
-        p-6
-        flex flex-col justify-between
-        h-[calc(100vh-64px)]
-        border-r border-gray-200
+        w-72
+        bg-slate-900/95 backrop-blur-md
+        text-white
+        h-full
+        min-h-screen /* ensure full height */
+        flex flex-col /* removed justify-between */
+        border-r border-white/10
+        relative
+        overflow-hidden
       "
     >
+      {/* Background accent */}
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-blue-900/20 to-transparent pointer-events-none"></div>
+
+
+
       {/* PROFILE */}
-      <div>
-        <div className="text-center mb-10">
-          <img
-            src="https://i.pravatar.cc/100"
-            className="w-24 h-24 rounded-full mx-auto mb-3 border-4 border-blue-400 shadow-lg"
-          />
-
-          {/* Later yaha real name laga sakta hai */}
-          <h3 className="font-bold text-xl text-gray-900">
-            Rahul Sharma
-          </h3>
-
-          <p className="text-sm text-gray-500">Student</p>
+      <div className="p-6 relative z-10">
+        <div className="flex items-center gap-4 mb-8 p-4 bg-white/5 rounded-2xl border border-white/5 backdrop-blur-md">
+          <div className="relative">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-500 to-cyan-500 flex items-center justify-center text-white shadow-lg">
+              <UserCircle size={28} />
+            </div>
+            <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-slate-900 rounded-full"></div>
+          </div>
+          <div>
+            <h3 className="font-bold text-white text-sm leading-tight">
+              {studentName}
+            </h3>
+            <p className="text-xs text-blue-400 font-medium">Student Account</p>
+          </div>
         </div>
 
         {/* MENU */}
-        <ul className="space-y-3">
+        <div className="space-y-1">
+          <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 px-4">Menu</p>
 
-          <li>
-            <NavLink to="/student/dashboard" className={linkClass}>
-              <Home size={18} />
-              Dashboard
-            </NavLink>
-          </li>
+          <NavLink to="/student/dashboard" className={linkClass}>
+            <Home size={20} />
+            Dashboard
+          </NavLink>
 
-          <li>
-            <NavLink to="/student/raise-complaint" className={linkClass}>
-              <PenLine size={18} />
-              Raise Complaint
-            </NavLink>
-          </li>
+          <NavLink to="/student/raise-complaint" className={linkClass}>
+            <PenLine size={20} />
+            Raise Complaint
+          </NavLink>
 
-          <li>
-            <NavLink to="/student/my-complaints" className={linkClass}>
-              <ClipboardList size={18} />
-              My Complaints
-            </NavLink>
-          </li>
+          <NavLink to="/student/my-complaints" className={linkClass}>
+            <ClipboardList size={20} />
+            My Complaints
+          </NavLink>
 
-          <li>
-            <NavLink to="/student/Leaves" className={linkClass}>
-              <FilePlus size={18} />
-              Apply Leave
-            </NavLink>
-          </li>
+          <NavLink to="/student/Leaves" className={linkClass}>
+            <FilePlus size={20} />
+            Apply Leave
+          </NavLink>
 
-          <li>
-            <NavLink to="/student/myleave" className={linkClass}>
-              <FileText size={18} />
-              My Leaves
-            </NavLink>
-          </li>
-           <li>
-            <NavLink to="/student/messpage" className={linkClass}>
-              <FileText size={18} />
-              Mess
-            </NavLink>
-          </li>
+          <NavLink to="/student/myleave" className={linkClass}>
+            <FileText size={20} />
+            My Leaves
+          </NavLink>
 
-        </ul>
+          <NavLink to="/student/messpage" className={linkClass}>
+            <FileText size={20} />
+            Mess
+          </NavLink>
+        </div>
       </div>
 
-      {/* LOGOUT */}
-      <button
-        onClick={handleLogout}
-        className="
-          flex items-center gap-3
-          px-4 py-2
-          rounded-lg
-          text-red-600
-          hover:bg-red-100
-          transition
-        "
-      >
-        <LogOut size={18} />
-        Logout
-      </button>
+
 
     </div>
   )
