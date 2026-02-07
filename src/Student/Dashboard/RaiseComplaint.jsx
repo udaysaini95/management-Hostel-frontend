@@ -79,22 +79,22 @@ const RaiseComplaint = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center bg-fixed relative flex items-center justify-center p-6">
+    <div className="h-screen overflow-hidden bg-[url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center bg-fixed relative flex items-center justify-center p-4">
 
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-slate-900/90 z-0"></div>
 
-      <div className="relative z-10 w-full max-w-xl bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl p-8">
+      <div className="relative z-10 w-full max-w-lg bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl p-6">
 
-        <h2 className="text-3xl font-extrabold text-white mb-6 text-center">
+        <h2 className="text-2xl font-extrabold text-white mb-4 text-center">
           🛠 Raise <span className="text-blue-400">Complaint</span>
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-4">
 
           {/* TYPE */}
           <div>
-            <label className="text-sm font-medium text-slate-300">
+            <label className="text-xs font-medium text-slate-300 uppercase tracking-wider">
               Complaint Type
             </label>
             <select
@@ -102,7 +102,7 @@ const RaiseComplaint = () => {
               value={form.type}
               onChange={handleChange}
               required
-              className="w-full mt-1 p-3 bg-white/5 border border-white/10 rounded-xl text-white focus:ring-2 focus:ring-blue-500/50 appearance-none"
+              className="w-full mt-1 p-2.5 bg-white/5 border border-white/10 rounded-xl text-white focus:ring-2 focus:ring-blue-500/50 appearance-none text-sm"
             >
               <option value="" className="bg-slate-800 text-gray-400">Select Type</option>
               <option className="bg-slate-800">Electrical</option>
@@ -115,7 +115,7 @@ const RaiseComplaint = () => {
 
           {/* ROOM */}
           <div>
-            <label className="text-sm font-medium text-slate-300">
+            <label className="text-xs font-medium text-slate-300 uppercase tracking-wider">
               Room Number
             </label>
             <input
@@ -125,30 +125,30 @@ const RaiseComplaint = () => {
               onChange={handleChange}
               placeholder="B-205"
               required
-              className="w-full mt-1 p-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:ring-2 focus:ring-blue-500/50"
+              className="w-full mt-1 p-2.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:ring-2 focus:ring-blue-500/50 text-sm"
             />
           </div>
 
           {/* DESCRIPTION */}
           <div>
-            <label className="text-sm font-medium text-slate-300">
+            <label className="text-xs font-medium text-slate-300 uppercase tracking-wider">
               Description
             </label>
             <textarea
               name="description"
               value={form.description}
               onChange={handleChange}
-              rows="4"
+              rows="3"
               required
-              className="w-full mt-1 p-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:ring-2 focus:ring-blue-500/50"
+              className="w-full mt-1 p-2.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:ring-2 focus:ring-blue-500/50 text-sm resize-none"
             />
           </div>
 
           {/* IMAGE */}
-          <div className="border border-dashed border-white/20 rounded-xl p-4 text-center hover:bg-white/5 transition-colors cursor-pointer relative group">
+          <div className="border border-dashed border-white/20 rounded-xl p-3 text-center hover:bg-white/5 transition-colors cursor-pointer relative group">
             <label className="flex flex-col items-center cursor-pointer text-slate-400 group-hover:text-white transition-colors">
-              <UploadCloud size={30} />
-              <span className="text-sm mt-1">
+              <UploadCloud size={24} />
+              <span className="text-xs mt-1">
                 Upload Photo (optional)
               </span>
               <input
@@ -161,18 +161,18 @@ const RaiseComplaint = () => {
             </label>
 
             {form.image && (
-              <p className="text-xs mt-2 text-green-400 font-bold">
+              <p className="text-xs mt-1 text-green-400 font-bold">
                 {form.image.name}
               </p>
             )}
           </div>
 
           {/* BUTTONS */}
-          <div className="flex gap-4 pt-2">
+          <div className="flex gap-3 pt-2">
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold py-3 rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+              className="flex-1 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold py-2.5 rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition-all disabled:opacity-60 disabled:cursor-not-allowed text-sm"
             >
               {loading ? "Submitting..." : "Submit Complaint"}
             </button>
@@ -180,7 +180,7 @@ const RaiseComplaint = () => {
             <button
               type="button"
               onClick={handleClear}
-              className="flex-1 bg-white/10 text-slate-300 font-medium py-3 rounded-xl hover:bg-white/20 transition-all active:scale-95 border border-white/10"
+              className="flex-1 bg-white/10 text-slate-300 font-medium py-2.5 rounded-xl hover:bg-white/20 transition-all active:scale-95 border border-white/10 text-sm"
             >
               Clear FORM
             </button>

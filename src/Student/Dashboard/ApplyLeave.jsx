@@ -1,10 +1,10 @@
 import axios from "axios"
 import { useState } from "react"
-import { Send, CalendarDays, FileText } from "lucide-react"
+import { Send, CalendarDays, FileText, CheckCircle, AlertCircle } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 
 function ApplyLeave() {
-    const navigate = useNavigate()
+  const navigate = useNavigate()
   const [form, setForm] = useState({
     reason: "",
     fromDate: "",
@@ -12,7 +12,7 @@ function ApplyLeave() {
     leaveType: "Personal",
     emergency: false
   })
-    
+
   const [loading, setLoading] = useState(false)
 
   const submit = async () => {
@@ -34,7 +34,7 @@ function ApplyLeave() {
       )
 
       alert("Leave Applied Successfully ✅")
-          navigate("/student/myleave");
+      navigate("/student/myleave"); // Corrected route to match App.jsx
       setForm({
         reason: "",
         fromDate: "",
@@ -51,101 +51,111 @@ function ApplyLeave() {
   }
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-blue-100 to-purple-100">
+    <div className="h-screen overflow-hidden bg-[url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center bg-fixed relative flex justify-center items-center p-4">
 
-      <div className="bg-white p-8 rounded-xl shadow-xl w-[420px]">
+      {/* Dark Overlay */}
+      <div className="absolute inset-0 bg-slate-900/90 z-0"></div>
 
-        <h2 className="text-2xl font-bold text-center mb-2">
-          Leave Application
+      <div className="relative z-10 w-full max-w-md bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl p-6">
+
+        <h2 className="text-2xl font-extrabold text-white text-center mb-1">
+          Apply for <span className="text-blue-400">Leave</span>
         </h2>
 
-        <p className="text-center text-gray-500 mb-6">
-          Fill the form to request leave
+        <p className="text-center text-slate-400 text-xs mb-6">
+          Request leave approval from hostel warden
         </p>
 
-        {/* Leave Type */}
-        <label className="text-sm font-medium">Leave Type</label>
-        <select
-          className="input mt-1"
-          value={form.leaveType}
-          onChange={e => setForm({ ...form, leaveType: e.target.value })}
-        >
-          <option>Personal</option>
-          <option>Medical</option>
-          <option>Emergency</option>
-          <option>Family</option>
-        </select>
+        <div className="space-y-4">
 
-        {/* Reason */}
-        <label className="text-sm font-medium mt-4 block">
-          Reason
-        </label>
-
-        <textarea
-          className="input h-24 resize-none mt-1"
-          placeholder="Write reason..."
-          value={form.reason}
-          onChange={e => setForm({ ...form, reason: e.target.value })}
-        />
-
-        {/* Dates */}
-        <div className="grid grid-cols-2 gap-3 mt-4">
-
+          {/* Leave Type */}
           <div>
-            <label className="text-sm font-medium">From</label>
-            <div className="relative">
-              <CalendarDays
-                size={18}
-                className="absolute left-3 top-3 text-gray-400"
-              />
-              <input
-                type="date"
-                className="input pl-10"
-                value={form.fromDate}
-                onChange={e => setForm({ ...form, fromDate: e.target.value })}
-              />
-            </div>
+            <label className="text-xs font-medium text-slate-300 uppercase tracking-wider">Leave Type</label>
+            <select
+              className="w-full mt-1 p-2.5 bg-white/5 border border-white/10 rounded-xl text-white focus:ring-2 focus:ring-blue-500/50 appearance-none text-sm"
+              value={form.leaveType}
+              onChange={e => setForm({ ...form, leaveType: e.target.value })}
+            >
+              <option className="bg-slate-800">Personal</option>
+              <option className="bg-slate-800">Medical</option>
+              <option className="bg-slate-800">Emergency</option>
+              <option className="bg-slate-800">Family</option>
+            </select>
           </div>
 
+          {/* Reason */}
           <div>
-            <label className="text-sm font-medium">To</label>
-            <div className="relative">
-              <CalendarDays
-                size={18}
-                className="absolute left-3 top-3 text-gray-400"
-              />
-              <input
-                type="date"
-                className="input pl-10"
-                value={form.toDate}
-                onChange={e => setForm({ ...form, toDate: e.target.value })}
-              />
-            </div>
+            <label className="text-xs font-medium text-slate-300 uppercase tracking-wider">
+              Reason
+            </label>
+            <textarea
+              className="w-full mt-1 p-2.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:ring-2 focus:ring-blue-500/50 text-sm h-20 resize-none"
+              placeholder="Brief reason for your leave..."
+              value={form.reason}
+              onChange={e => setForm({ ...form, reason: e.target.value })}
+            />
           </div>
 
-        </div>
+          {/* Dates */}
+          <div className="grid grid-cols-2 gap-4">
 
-        {/* Emergency */}
-        <div className="flex items-center gap-2 mt-4">
-          <input
-            type="checkbox"
-            checked={form.emergency}
-            onChange={e =>
-              setForm({ ...form, emergency: e.target.checked })
-            }
-          />
-          <span className="text-sm">Mark as Emergency</span>
-        </div>
+            <div>
+              <label className="text-xs font-medium text-slate-300 uppercase tracking-wider">From</label>
+              <div className="relative mt-1">
+                <CalendarDays
+                  size={16}
+                  className="absolute left-3 top-2.5 text-blue-400"
+                />
+                <input
+                  type="date"
+                  className="w-full pl-9 p-2 bg-white/5 border border-white/10 rounded-xl text-white focus:ring-2 focus:ring-blue-500/50 text-sm"
+                  value={form.fromDate}
+                  onChange={e => setForm({ ...form, fromDate: e.target.value })}
+                />
+              </div>
+            </div>
 
-        {/* Submit */}
-        <button
-          onClick={submit}
-          disabled={loading}
-          className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg flex items-center justify-center gap-2 transition"
-        >
-          <Send size={18} />
-          {loading ? "Submitting..." : "Submit Leave"}
-        </button>
+            <div>
+              <label className="text-xs font-medium text-slate-300 uppercase tracking-wider">To</label>
+              <div className="relative mt-1">
+                <CalendarDays
+                  size={16}
+                  className="absolute left-3 top-2.5 text-blue-400"
+                />
+                <input
+                  type="date"
+                  className="w-full pl-9 p-2 bg-white/5 border border-white/10 rounded-xl text-white focus:ring-2 focus:ring-blue-500/50 text-sm"
+                  value={form.toDate}
+                  onChange={e => setForm({ ...form, toDate: e.target.value })}
+                />
+              </div>
+            </div>
+
+          </div>
+
+          {/* Emergency */}
+          <div className="flex items-center gap-2 mt-2 bg-red-500/10 p-2 rounded-lg border border-red-500/20">
+            <input
+              type="checkbox"
+              className="w-4 h-4 rounded border-red-500 text-red-500 focus:ring-red-500 bg-transparent"
+              checked={form.emergency}
+              onChange={e =>
+                setForm({ ...form, emergency: e.target.checked })
+              }
+            />
+            <span className="text-xs font-bold text-red-400">Mark as Emergency Request</span>
+          </div>
+
+          {/* Submit */}
+          <button
+            onClick={submit}
+            disabled={loading}
+            className="w-full mt-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold py-3 rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition-all disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            <Send size={18} />
+            {loading ? "Submitting..." : "Submit Leave Application"}
+          </button>
+        </div>
 
       </div>
     </div>
