@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { BarChart3, TrendingUp, AlertTriangle } from "lucide-react";
 
 const MessReports = () => {
     const [issues, setIssues] = useState([]);
@@ -25,27 +26,11 @@ const MessReports = () => {
         }
     };
 
-    const updateStatus = async (id, status) => {
-        try {
-            const token = localStorage.getItem("token");
-            await axios.put(
-                `http://localhost:5000/api/mess/issue/${id}/status`,
-                { status },
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
-            fetchReports();
-        } catch (err) {
-            alert("Failed to update status");
-        }
-    };
-
     useEffect(() => {
         fetchReports();
     }, []);
 
-    // -------------------------
-    // Group issues by issueType + mealType
-    // =========================
+    // Group issues by "Issue Type • Meal Type"
     const groupedIssues = issues.reduce((acc, issue) => {
         const key = `${issue.issueType} • ${issue.mealType}`;
         if (!acc[key]) acc[key] = [];
@@ -59,46 +44,133 @@ const MessReports = () => {
     );
 
     if (loading) {
-        return <p className="p-10 text-gray-500">Loading reports...</p>;
+        return (
+            <div className="flex justify-center items-center h-64">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-pink-500"></div>
+            </div>
+        );
     }
 
     if (error) {
-        return <p className="p-10 text-red-500">{error}</p>;
+        return (
+            <div className="p-8 bg-red-500/10 border border-red-500/20 rounded-xl text-center">
+                <p className="text-red-400">{error}</p>
+            </div>
+        );
     }
 
+    const totalIssues = issues.length;
+    const resolved = issues.filter((i) => i.status === "Resolved").length;
+    const pending = issues.filter((i) => i.status === "Pending").length;
+    const resolutionRate = totalIssues > 0 ? Math.round((resolved / totalIssues) * 100) : 0;
+
     return (
-        <div className="p-10 bg-slate-50 min-h-screen">
-            <h2 className="text-2xl font-bold mb-6">📊 Mess Reports</h2>
+        <div className="max-w-7xl mx-auto">
+            <div className="mb-8">
+                <h1 className="text-3xl font-extrabold text-white tracking-tight sm:text-4xl mb-2">
+                    Mess <span className="text-pink-400">Reports & Analytics</span>
+                </h1>
+                <p className="text-slate-400">
+                    Insights into mess complaints and recurring issues.
+                </p>
+            </div>
 
-            <p>Total Complaints: {issues.length}</p>
-            <p>Resolved: {issues.filter((i) => i.status === "Resolved").length}</p>
-            <p>Pending: {issues.filter((i) => i.status === "Pending").length}</p>
+            {/* Stats Overview */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div className="bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-2xl">
+                    <div className="flex items-center gap-4">
+                        <div className="p-3 bg-purple-500/20 rounded-lg text-purple-400">
+                            <BarChart3 className="w-6 h-6" />
+                        </div>
+                        <div>
+                            <p className="text-slate-400 text-sm">Total Complaints</p>
+                            <p className="text-2xl font-bold text-white">{totalIssues}</p>
+                        </div>
+                    </div>
+                </div>
 
-            <div className="mt-6 space-y-6">
+                <div className="bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-2xl">
+                    <div className="flex items-center gap-4">
+                        <div className="p-3 bg-green-500/20 rounded-lg text-green-400">
+                            <TrendingUp className="w-6 h-6" />
+                        </div>
+                        <div>
+                            <p className="text-slate-400 text-sm">Resolution Rate</p>
+                            <p className="text-2xl font-bold text-white">{resolutionRate}%</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-2xl">
+                    <div className="flex items-center gap-4">
+                        <div className="p-3 bg-red-500/20 rounded-lg text-red-400">
+                            <AlertTriangle className="w-6 h-6" />
+                        </div>
+                        <div>
+                            <p className="text-slate-400 text-sm">Pending Actions</p>
+                            <p className="text-2xl font-bold text-white">{pending}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                <span className="w-1 h-6 bg-pink-500 rounded-full"></span>
+                Top Recurring Issues
+            </h3>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {sortedGroups.map(([group, students], index) => (
                     <div
                         key={group}
-                        className={`p-5 rounded shadow space-y-2 ${index < 3
-                            ? "bg-yellow-100 border-l-4 border-yellow-400" // Top 3 highlight
-                            : "bg-white"
+                        className={`p-6 rounded-2xl border backdrop-blur-md transition-all duration-300 ${index < 3
+                                ? "bg-gradient-to-br from-pink-500/10 to-purple-600/10 border-pink-500/30 shadow-lg shadow-pink-500/5"
+                                : "bg-white/5 border-white/10"
                             }`}
                     >
-                        <div className="flex items-center justify-between">
-                            <p className="font-semibold text-lg">{group}</p>
+                        <div className="flex items-center justify-between mb-4">
+                            <h4 className="font-bold text-lg text-white">{group}</h4>
                             {index < 3 && (
-                                <span className="bg-yellow-400 text-white text-xs px-2 py-1 rounded">
-                                    🔥 Top {index + 1}
+                                <span className="bg-pink-500 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider shadow">
+                                    High Priority
                                 </span>
                             )}
                         </div>
-                        <p className="text-sm text-gray-600">
-                            Most demanding students: {students.join(", ")}
-                        </p>
-                        <p className="text-xs text-gray-400">
-                            Total Complaints: {students.length}
-                        </p>
+
+                        <div className="mb-4">
+                            <div className="flex justify-between text-sm text-slate-400 mb-1">
+                                <span>Impact</span>
+                                <span>{students.length} Reports</span>
+                            </div>
+                            <div className="w-full bg-slate-700/50 rounded-full h-2">
+                                <div
+                                    className="bg-gradient-to-r from-pink-500 to-purple-500 h-2 rounded-full"
+                                    style={{ width: `${Math.min((students.length / totalIssues) * 100, 100)}%` }}
+                                ></div>
+                            </div>
+                        </div>
+
+                        <div className="mt-4 pt-4 border-t border-white/5">
+                            <p className="text-xs text-slate-500 mb-2">Reported by:</p>
+                            <div className="flex flex-wrap gap-2">
+                                {Array.from(new Set(students)).slice(0, 5).map((student, i) => (
+                                    <span key={i} className="text-xs text-slate-300 bg-white/5 px-2 py-1 rounded border border-white/5">
+                                        {student}
+                                    </span>
+                                ))}
+                                {students.length > 5 && (
+                                    <span className="text-xs text-slate-500 px-2 py-1">+{students.length - 5} more</span>
+                                )}
+                            </div>
+                        </div>
                     </div>
                 ))}
+
+                {sortedGroups.length === 0 && (
+                    <div className="col-span-full text-center p-10 text-slate-500">
+                        No analytics available yet.
+                    </div>
+                )}
             </div>
         </div>
     );
